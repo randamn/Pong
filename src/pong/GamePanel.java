@@ -19,47 +19,67 @@ public class GamePanel extends JPanel implements Runnable {
 	private Thread game;
 	private boolean running = false;
 	private double fps = 0;
-	
+
 	public static Ball ball;
-	public static Ball ball2;
-	
-	public static Paddle computer;
-	public static Paddle human;
+
+	public static Paddle leftPaddle;
+	public static Paddle rightPaddle;
 
 	private static final long serialVersionUID = 1L;
 
 	public GamePanel(int w, int h) {
 		width = w;
 		height = h;
-		
-		ball = new Ball(width/2, height/2);
-		
-		computer = new Computer(1);
-		human = new Human(2);
-		
-		addKeyListener(new KeyAdapter(){
-            public void keyPressed(KeyEvent e){
-            	switch(e.getKeyCode()){
-            	case KeyEvent.VK_UP:
-            		((Human) human).keyUp();
-            		break;
-            	case KeyEvent.VK_DOWN:
-            		((Human) human).keyDown();
-            		break;
-            	}
-            }
-            public void keyReleased(KeyEvent e){
-            	((Human) human).keyRelease();
-            }
-            public void keyTyped(KeyEvent e){
-            }
-        });
+
+		ball = new Ball(width / 2, height / 2);
+
+		leftPaddle = new Computer(1);
+		rightPaddle = new Computer(2);
+
+		addKeyListener(new KeyAdapter() {
+			public void keyPressed(KeyEvent e) {
+				if (rightPaddle instanceof Human)
+					switch (e.getKeyCode()) {
+					case KeyEvent.VK_UP:
+						((Human) rightPaddle).keyUp();
+						break;
+					case KeyEvent.VK_DOWN:
+						((Human) rightPaddle).keyDown();
+						break;
+					}
+				if (leftPaddle instanceof Human)
+					switch (e.getKeyCode()) {
+
+					case KeyEvent.VK_SHIFT:
+						((Human) leftPaddle).keyUp();
+						break;
+					case KeyEvent.VK_CONTROL:
+						((Human) leftPaddle).keyDown();
+						break;
+					}
+			}
+
+			public void keyReleased(KeyEvent e) {
+				if (rightPaddle instanceof Human)
+					if (e.getKeyCode() == KeyEvent.VK_UP
+							|| e.getKeyCode() == KeyEvent.VK_DOWN)
+						((Human) rightPaddle).keyRelease();
+				if (leftPaddle instanceof Human)
+					if (e.getKeyCode() == KeyEvent.VK_CONTROL
+							|| e.getKeyCode() == KeyEvent.VK_SHIFT)
+						((Human) leftPaddle).keyRelease();
+			}
+
+			public void keyTyped(KeyEvent e) {
+			}
+		});
 
 		setPreferredSize(new Dimension(width, height));
-		//setLocation(20, 20);
+		// setLocation(20, 20);
 		setFocusable(true);
 		requestFocus();
-		
+		requestFocusInWindow();
+
 	}
 
 	@SuppressWarnings("static-access")
@@ -70,26 +90,27 @@ public class GamePanel extends JPanel implements Runnable {
 			gameUpdate();
 			gameRender();
 			paintScreen();
-						
+
 			double millis = System.nanoTime() - beforeTime;
 			millis /= 1000000;
-			
+
 			try {
-				if((int)(16.66666-millis) > 0)
-					game.sleep((int)(16.66666-millis));
-			} catch (InterruptedException e) {}
-			
+				if ((int) (16.66666 - millis) > 0)
+					game.sleep((int) (16.66666 - millis));
+			} catch (InterruptedException e) {
+			}
+
 			millis = System.nanoTime() - beforeTime;
 			millis /= 1000000;
-			
-			fps = (int)(1000/millis);
+
+			fps = (int) (1000 / millis);
 		}
 	}
 
 	private void gameUpdate() {
 		ball.update();
-		computer.update();
-		human.update();
+		leftPaddle.update();
+		rightPaddle.update();
 	}
 
 	private void gameRender() {
@@ -109,22 +130,22 @@ public class GamePanel extends JPanel implements Runnable {
 		draw(dbg);
 	}
 
-	private void draw(Graphics g) {	
+	private void draw(Graphics g) {
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, width, height);
-		
-		char[] fpsArray = Integer.toString((int)fps).toCharArray();
+
+		char[] fpsArray = Integer.toString((int) fps).toCharArray();
 		g.setColor(Color.WHITE);
 		g.drawChars(fpsArray, 0, fpsArray.length, 20, 20);
-		
-		g.drawString(Integer.toString(computer.getScore()), 150, 40);
-		g.drawString(Integer.toString(human.getScore()), 450, 40);
-		
-		g.drawRect(width/2, 0, 1, height);
+
+		g.drawString(Integer.toString(leftPaddle.getScore()), 150, 40);
+		g.drawString(Integer.toString(rightPaddle.getScore()), 450, 40);
+
+		g.drawRect(width / 2, 0, 1, height);
 
 		ball.draw(g);
-		computer.draw(g);
-		human.draw(g);
+		leftPaddle.draw(g);
+		rightPaddle.draw(g);
 	}
 
 	private void paintScreen() {

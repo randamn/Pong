@@ -58,6 +58,8 @@ public abstract class Paddle {
 	public void draw(Graphics g){
 		g.setColor(Color.WHITE);
 		g.fillRect((int)xPos, (int)(yPos - (getHeight()/2.0)), (int)width, (int)getHeight());
+		g.setColor(Color.RED);
+		g.fillOval((int)xPos, (int)(yPos), 3, 3);
 	}
 	
 	public void addScore(){

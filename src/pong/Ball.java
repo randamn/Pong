@@ -5,9 +5,9 @@ import java.awt.Graphics;
 
 public class Ball {
 	
-	int diameter = 10;
+	double diameter = 10;
 	
-	double speed = 4;
+	double speed = 0;
 	double angle = 0;
 	
 	double xPos, yPos;
@@ -17,34 +17,39 @@ public class Ball {
 	}
 	
 	public void update(){
+		checkCollisions(GamePanel.leftPaddle);
+		checkCollisions(GamePanel.rightPaddle);
+		
 		xPos += Math.cos(angle)*speed;
 		yPos += Math.sin(angle)*speed;
-		if(xPos <= 0 ){
-			GamePanel.human.addScore();
+		
+		//Score on left side of board
+		if(xPos <= 0 - diameter ){
+			GamePanel.rightPaddle.addScore();
 			reset();
 		}
-		if (xPos >= GamePanel.width - diameter){
-			GamePanel.computer.addScore();
+		//Score on right side of board
+		if (xPos >= GamePanel.width){
+			GamePanel.leftPaddle.addScore();
 			reset();
 		}
+		
+		//Bounce if contacting top or bottom of window
 		if(yPos <= 0 || yPos >= GamePanel.height - diameter){
 			angle = -angle;
 		}
-		
-		checkCollisions(GamePanel.computer);
-		checkCollisions(GamePanel.human);
 	}
 	
 	private void checkCollisions(Paddle paddle){
 		if(paddle.side == 1) //LEFT
 			if(xPos < paddle.getxPos() + paddle.getWidth())
-				if(Math.abs(yPos - paddle.getyPos()) < paddle.getHeight()/2){
+				if(Math.abs(yPos - paddle.getyPos()) < paddle.getHeight()/2 + diameter/2.0){
 					angle = Math.PI - angle - (0.01*(yPos - paddle.getyPos()));
 					speed += .5;
 				}
 		if(paddle.side == 2) //RIGHT
 			if(xPos > paddle.getxPos() - paddle.getWidth())
-				if(Math.abs(yPos - paddle.getyPos()) < paddle.getHeight()/2){
+				if(Math.abs(yPos - paddle.getyPos() + diameter/2.0) < paddle.getHeight()/2){
 					angle = Math.PI - angle - (0.01*(yPos - paddle.getyPos()));
 					speed += .5;
 				}
@@ -60,6 +65,8 @@ public class Ball {
 	
 	public void draw(Graphics g){
 		g.setColor(Color.WHITE);
-		g.fillOval((int)xPos, (int)yPos, diameter, diameter);
+		g.fillOval((int)(xPos - diameter/2.0), (int)(yPos - diameter/2.0), (int)diameter, (int)diameter);
+		g.setColor(Color.RED);
+		g.drawRect((int)xPos, (int)yPos, 1, 1);
 	}
 }
