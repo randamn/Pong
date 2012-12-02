@@ -17,11 +17,11 @@ public class Ball {
 	}
 	
 	public void update(){
-		checkCollisions(GamePanel.leftPaddle);
-		checkCollisions(GamePanel.rightPaddle);
-		
 		xPos += Math.cos(angle)*speed;
 		yPos += Math.sin(angle)*speed;
+		
+		checkCollisions(GamePanel.leftPaddle);
+		checkCollisions(GamePanel.rightPaddle);
 		
 		//Score on left side of board
 		if(xPos <= 0 - diameter ){
@@ -43,13 +43,17 @@ public class Ball {
 	private void checkCollisions(Paddle paddle){
 		if(paddle.side == 1) //LEFT
 			if(xPos < paddle.getxPos() + paddle.getWidth())
-				if(Math.abs(yPos - paddle.getyPos()) < paddle.getHeight()/2 + diameter/2.0){
+				if( (yPos < paddle.getyPos() + (paddle.getHeight()/2.0) ) & 
+					(yPos > paddle.getyPos() - (paddle.getHeight()/2.0) - diameter )){
+					xPos = paddle.getxPos() + paddle.getWidth() + 1;
 					angle = Math.PI - angle - (0.01*(yPos - paddle.getyPos()));
 					speed += .5;
 				}
 		if(paddle.side == 2) //RIGHT
-			if(xPos > paddle.getxPos() - paddle.getWidth())
-				if(Math.abs(yPos - paddle.getyPos() + diameter/2.0) < paddle.getHeight()/2){
+			if(xPos > paddle.getxPos())
+				if( (yPos < paddle.getyPos() + (paddle.getHeight()/2.0) ) & 
+					(yPos > paddle.getyPos() - (paddle.getHeight()/2.0) - diameter )){
+					xPos = paddle.getxPos() -  1;
 					angle = Math.PI - angle - (0.01*(yPos - paddle.getyPos()));
 					speed += .5;
 				}
@@ -60,7 +64,8 @@ public class Ball {
 		yPos = GamePanel.height/2;
 		angle = Math.random()*(Math.PI/2.0) + (3.0*Math.PI/4.0) ;
 		angle += (int)(Math.random()*2)*Math.PI;
-		speed = 4;
+		angle = 0;
+		speed = 4; //Default: 4
 	}
 	
 	public void draw(Graphics g){

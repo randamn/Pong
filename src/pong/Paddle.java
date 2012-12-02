@@ -5,9 +5,9 @@ import java.awt.Graphics;
 
 public abstract class Paddle {
 	
-	private double speed = 5;
-	private double height = 60;
-	private double width = 10;
+	private double speed = 5; //Default: 5
+	private double height = 60; //Default: 60
+	private double width = 10; //Default: 
 	private int score = 0;
 	public int side;
 	
@@ -58,8 +58,6 @@ public abstract class Paddle {
 	public void draw(Graphics g){
 		g.setColor(Color.WHITE);
 		g.fillRect((int)xPos, (int)(yPos - (getHeight()/2.0)), (int)width, (int)getHeight());
-		g.setColor(Color.RED);
-		g.fillOval((int)xPos, (int)(yPos), 3, 3);
 	}
 	
 	public void addScore(){

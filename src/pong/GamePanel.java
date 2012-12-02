@@ -34,7 +34,7 @@ public class GamePanel extends JPanel implements Runnable {
 		ball = new Ball(width / 2, height / 2);
 
 		leftPaddle = new Computer(1);
-		rightPaddle = new Computer(2);
+		rightPaddle = new Human(2);
 
 		addKeyListener(new KeyAdapter() {
 			public void keyPressed(KeyEvent e) {
