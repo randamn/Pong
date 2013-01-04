@@ -7,7 +7,7 @@ public abstract class Paddle {
 	
 	private double speed = 5; //Default: 5
 	private double height = 60; //Default: 60
-	private double width = 10; //Default: 
+	private double width = 10; //Default: 10
 	private int score = 0;
 	public int side;
 	

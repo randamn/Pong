@@ -2,11 +2,18 @@ package pong;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
 import javax.swing.JPanel;
 
 public class GamePanel extends JPanel implements Runnable {
@@ -24,18 +31,27 @@ public class GamePanel extends JPanel implements Runnable {
 
 	public static Paddle leftPaddle;
 	public static Paddle rightPaddle;
+	
+	public static Font gameFont;
 
 	private static final long serialVersionUID = 1L;
 
-	public GamePanel(int w, int h) {
-		width = w;
-		height = h;
+	public GamePanel(char p1, char p2) {
+		width = 584;
+		height = 363;
+		
+		setPreferredSize(new Dimension(width, height));
+		setFocusable(true);
+		requestFocus();
+		this.setVisible(true);
 
 		ball = new Ball(width / 2, height / 2);
-
-		leftPaddle = new Computer(1);
-		rightPaddle = new Human(2);
-
+		
+		if(p1 == 'h') leftPaddle = new Human(1);
+		else leftPaddle = new Computer(1);
+		if(p2 == 'h') rightPaddle = new Human(2);
+		else rightPaddle = new Computer(2);
+		
 		addKeyListener(new KeyAdapter() {
 			public void keyPressed(KeyEvent e) {
 				if (rightPaddle instanceof Human)
@@ -57,8 +73,8 @@ public class GamePanel extends JPanel implements Runnable {
 						((Human) leftPaddle).keyDown();
 						break;
 					}
+				System.out.println("key press");
 			}
-
 			public void keyReleased(KeyEvent e) {
 				if (rightPaddle instanceof Human)
 					if (e.getKeyCode() == KeyEvent.VK_UP
@@ -75,11 +91,9 @@ public class GamePanel extends JPanel implements Runnable {
 		});
 
 		setPreferredSize(new Dimension(width, height));
-		// setLocation(20, 20);
 		setFocusable(true);
 		requestFocus();
-		requestFocusInWindow();
-
+		this.setVisible(true);
 	}
 
 	@SuppressWarnings("static-access")
@@ -134,12 +148,13 @@ public class GamePanel extends JPanel implements Runnable {
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, width, height);
 
-		char[] fpsArray = Integer.toString((int) fps).toCharArray();
+		//g.setFont(gameFont);
 		g.setColor(Color.WHITE);
-		g.drawChars(fpsArray, 0, fpsArray.length, 20, 20);
+		g.drawString(Integer.toString((int) fps), 20, 20);
 
 		g.drawString(Integer.toString(leftPaddle.getScore()), 150, 40);
 		g.drawString(Integer.toString(rightPaddle.getScore()), 450, 40);
+		//g.drawS
 
 		g.drawRect(width / 2, 0, 1, height);
 

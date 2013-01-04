@@ -5,7 +5,7 @@ import java.awt.Graphics;
 
 public class Ball {
 	
-	double diameter = 10;
+	double diameter = 10; //Default: 10
 	
 	double speed = 0;
 	double angle = 0;
@@ -35,7 +35,7 @@ public class Ball {
 		}
 		
 		//Bounce if contacting top or bottom of window
-		if(yPos <= 0 || yPos >= GamePanel.height - diameter){
+		if(yPos <= 0 || yPos >= GamePanel.height - (diameter/2.0)){
 			angle = -angle;
 		}
 	}
@@ -64,14 +64,12 @@ public class Ball {
 		yPos = GamePanel.height/2;
 		angle = Math.random()*(Math.PI/2.0) + (3.0*Math.PI/4.0) ;
 		angle += (int)(Math.random()*2)*Math.PI;
-		angle = 0;
+		//angle = 0;
 		speed = 4; //Default: 4
 	}
 	
 	public void draw(Graphics g){
 		g.setColor(Color.WHITE);
 		g.fillOval((int)(xPos - diameter/2.0), (int)(yPos - diameter/2.0), (int)diameter, (int)diameter);
-		g.setColor(Color.RED);
-		g.drawRect((int)xPos, (int)yPos, 1, 1);
 	}
 }
