@@ -20,22 +20,22 @@ public class Ball {
 		xPos += Math.cos(angle)*speed;
 		yPos += Math.sin(angle)*speed;
 		
-		checkCollisions(GamePanel.leftPaddle);
-		checkCollisions(GamePanel.rightPaddle);
+		checkCollisions(Game.leftPaddle);
+		checkCollisions(Game.rightPaddle);
 		
 		//Score on left side of board
 		if(xPos <= 0 - diameter ){
-			GamePanel.rightPaddle.addScore();
+			Game.rightPaddle.addScore();
 			reset();
 		}
 		//Score on right side of board
-		if (xPos >= GamePanel.width){
-			GamePanel.leftPaddle.addScore();
+		if (xPos >= Game.width){
+			Game.leftPaddle.addScore();
 			reset();
 		}
 		
 		//Bounce if contacting top or bottom of window
-		if(yPos <= 0 || yPos >= GamePanel.height - (diameter/2.0)){
+		if(yPos <= 0 || yPos >= Game.height - (diameter/2.0)){
 			angle = -angle;
 		}
 	}
@@ -60,8 +60,8 @@ public class Ball {
 	}
 	
 	private void reset(){
-		xPos = GamePanel.width/2;
-		yPos = GamePanel.height/2;
+		xPos = Game.width/2;
+		yPos = Game.height/2;
 		angle = Math.random()*(Math.PI/2.0) + (3.0*Math.PI/4.0) ;
 		angle += (int)(Math.random()*2)*Math.PI;
 		//angle = 0;

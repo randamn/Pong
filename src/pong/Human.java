@@ -5,8 +5,8 @@ public class Human extends Paddle{
 	private int direction;
 	
 	public Human(int side){
-		this.setyPos(GamePanel.height/2);
-		this.setxPos(GamePanel.width - 20);
+		this.setyPos(Game.height/2);
+		this.setxPos(Game.width - 20);
 		
 		direction = 0;
 		
@@ -15,13 +15,13 @@ public class Human extends Paddle{
 		if(this.side == 1)
 			this.setxPos(10);
 		else
-			this.setxPos(GamePanel.width - 20);
+			this.setxPos(Game.width - 20);
 	
 	}
 
 	@Override
 	public void update() {
-		if(this.getyPos() > GamePanel.height - (this.getHeight()/2) && direction == 1)
+		if(this.getyPos() > Game.height - (this.getHeight()/2) && direction == 1)
 			direction = 0;
 		if(this.getyPos() < this.getHeight()/2 && direction == -1){
 			direction = 0;

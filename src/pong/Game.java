@@ -1,45 +1,89 @@
 package pong;
 
-import java.awt.FlowLayout;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.event.KeyEvent;
 
-import javax.swing.JFrame;
+public class Game extends GameState {
 
-public class Game extends JFrame{
-	
 	private static final long serialVersionUID = 1L;
 	
-	private GamePanel game;
-	private Menu menu;
+	public static Paddle leftPaddle, rightPaddle;
+	public static Ball ball;
 	
-	public Game(){
+	public Game(char p1, char p2){
+		super();
+		ball = new Ball(width / 2, height / 2);
 		
-		setSize(600, 400);
-		setTitle("Pong");
-		FlowLayout layout = new FlowLayout();
-		layout.setHgap(0);
-		layout.setVgap(0);
-		setLayout(layout);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setResizable(true);
-        setLocationRelativeTo(null); // Center in screen
-       
-        menu = new Menu(this);
-        add(menu);
-        setVisible(true);
-	}
+		if(p1 == 'h') leftPaddle = new Human(1);
+		else leftPaddle = new Computer(1);
+		if(p2 == 'h') rightPaddle = new Human(2);
+		else rightPaddle = new Computer(2);
+		
 	
-	public void startGame(char p1, char p2){
-		game = new GamePanel(p1, p2);
-		menu.setVisible(false);
-		remove(menu);
+	}
 
-		game.setVisible(true);
-		add(game);
+	@Override
+	public void gameUpdate() {
+		ball.update();
+		leftPaddle.update();
+		rightPaddle.update();
+	}
+
+	@Override
+	public void draw(Graphics g) {
+		g.setColor(Color.BLACK);
+		g.fillRect(0, 0, width, height);
+
+		//g.setFont(gameFont);
+		g.setColor(Color.WHITE);
+		g.drawString(Integer.toString((int) fps), 20, 20);
+
+		g.drawString(Integer.toString(leftPaddle.getScore()), 150, 40);
+		g.drawString(Integer.toString(rightPaddle.getScore()), 450, 40);
+		//g.drawS
+
+		g.drawRect(width / 2, 0, 1, height);
+
+		ball.draw(g);
+		leftPaddle.draw(g);
+		rightPaddle.draw(g);
+	}
+
+	@Override
+	public void keyPressHandler(KeyEvent e) {
+		if (rightPaddle instanceof Human)
+			switch (e.getKeyCode()) {
+			case KeyEvent.VK_UP:
+				((Human) rightPaddle).keyUp();
+				break;
+			case KeyEvent.VK_DOWN:
+				((Human) rightPaddle).keyDown();
+				break;
+			}
+		if (leftPaddle instanceof Human)
+			switch (e.getKeyCode()) {
+
+			case KeyEvent.VK_SHIFT:
+				((Human) leftPaddle).keyUp();
+				break;
+			case KeyEvent.VK_CONTROL:
+				((Human) leftPaddle).keyDown();
+				break;
+			}
 		
 	}
-	
-	public static void main(String[] args) {
-		new Game();
+
+	@Override
+	public void keyReleaseHandler(KeyEvent e) {
+		if (rightPaddle instanceof Human)
+			if (e.getKeyCode() == KeyEvent.VK_UP
+					|| e.getKeyCode() == KeyEvent.VK_DOWN)
+				((Human) rightPaddle).keyRelease();
+		if (leftPaddle instanceof Human)
+			if (e.getKeyCode() == KeyEvent.VK_CONTROL
+					|| e.getKeyCode() == KeyEvent.VK_SHIFT)
+				((Human) leftPaddle).keyRelease();
 	}
 
 }
