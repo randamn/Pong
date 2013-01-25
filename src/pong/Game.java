@@ -12,7 +12,7 @@ public class Game extends GameState {
 	public static Ball ball;
 	
 	public Game(char p1, char p2){
-		super();
+		//super();
 		ball = new Ball(width / 2, height / 2);
 		
 		if(p1 == 'h') leftPaddle = new Human(1);
@@ -35,13 +35,9 @@ public class Game extends GameState {
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, width, height);
 
-		//g.setFont(gameFont);
 		g.setColor(Color.WHITE);
-		g.drawString(Integer.toString((int) fps), 20, 20);
-
-		g.drawString(Integer.toString(leftPaddle.getScore()), 150, 40);
-		g.drawString(Integer.toString(rightPaddle.getScore()), 450, 40);
-		//g.drawS
+		g.drawString(Integer.toString(leftPaddle.getScore()), width/4, 40);
+		g.drawString(Integer.toString(rightPaddle.getScore()), 3*(width/4), 40);
 
 		g.drawRect(width / 2, 0, 1, height);
 

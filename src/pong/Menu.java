@@ -1,7 +1,6 @@
 package pong;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 
@@ -34,30 +33,21 @@ public class Menu extends GameState {
 		options[2] = new MenuOption("Computer	- 	Human", 'c', 'h');
 		options[3] = new MenuOption("Computer 	- 	Computer", 'c', 'c');
 	}
-
 	
 	public void draw(Graphics g){
 		g.setColor(Color.BLACK);
+		g.fillRect(0, 0, width, height);
+		g.setColor(Color.WHITE);
 		for(int i = 0; i < 4; i++){
 			g.drawString(options[i].name, 20, 120 + (20*i));
 		}
 		g.drawOval(12, 113 + (20 * choice), 4, 4);
 	}
 	
-	public void gameUpdate(){
-		
-	}
-
 	@Override
 	public void keyPressHandler(KeyEvent e) {
 		if(e.getKeyCode() == KeyEvent.VK_SPACE){
-			setFocusable(false);
-			running = false;
 			game.startGame(options[choice].p1, options[choice].p2);
-			System.out.println(options[choice].p1 + " " + options[choice].p2);
-			
-			System.out.println("game start initiated");
-			
 		}
 		if(e.getKeyCode() == KeyEvent.VK_UP){
 			if(choice > 0)
@@ -71,6 +61,10 @@ public class Menu extends GameState {
 
 	@Override
 	public void keyReleaseHandler(KeyEvent e) {
+	}
+
+	@Override
+	public void gameUpdate() {
 	}
 
 }
