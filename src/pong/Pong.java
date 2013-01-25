@@ -21,11 +21,12 @@ public class Pong extends JFrame implements Runnable{
 	private Thread game;
 	protected boolean running = false;
 	public static int fps = 0;
-	public static int width = 584, height = 362;
+	public static int fWidth = 600, fHeight = 400;
+	public static int width = fWidth - 16, height = fHeight - 38;
 	
 	public Pong(){
 		
-		setSize(600, 400);
+		setSize(fWidth, fHeight);
 		setTitle("Pong");
 		FlowLayout layout = new FlowLayout();
 		layout.setHgap(0);
@@ -36,7 +37,6 @@ public class Pong extends JFrame implements Runnable{
         setLocationRelativeTo(null); // Center in screen
         
         state = new Menu(this);
-        //state = new Game('c','c');
         
         this.addKeyListener(new KeyAdapter() {
 			public void keyPressed(KeyEvent e) {

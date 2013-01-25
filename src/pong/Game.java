@@ -12,7 +12,7 @@ public class Game extends GameState {
 	public static Ball ball;
 	
 	public Game(char p1, char p2){
-		//super();
+
 		ball = new Ball(width / 2, height / 2);
 		
 		if(p1 == 'h') leftPaddle = new Human(1);

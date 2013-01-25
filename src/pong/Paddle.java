@@ -26,7 +26,12 @@ public abstract class Paddle {
 	}
 
 	public void setyPos(double yPos) {
-		this.yPos = yPos;
+		if(yPos < height/2)
+			this.yPos = height/2;
+		else if (yPos > Pong.height - height/2)
+			this.yPos = Pong.height - height/2;
+		else
+			this.yPos = yPos;
 	}
 
 	public double getHeight() {

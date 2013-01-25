@@ -43,19 +43,21 @@ public class Ball {
 	private void checkCollisions(Paddle paddle){
 		if(paddle.side == 1) //LEFT
 			if(xPos < paddle.getxPos() + paddle.getWidth())
-				if( (yPos < paddle.getyPos() + (paddle.getHeight()/2.0) ) & 
+				if( (yPos < paddle.getyPos() + (paddle.getHeight()/2.0) ) && 
 					(yPos > paddle.getyPos() - (paddle.getHeight()/2.0) - diameter )){
 					xPos = paddle.getxPos() + paddle.getWidth() + 1;
 					angle = Math.PI - angle - (0.01*(yPos - paddle.getyPos()));
-					speed += .5;
+					if(speed < 15)
+						speed += .5;
 				}
 		if(paddle.side == 2) //RIGHT
 			if(xPos > paddle.getxPos())
-				if( (yPos < paddle.getyPos() + (paddle.getHeight()/2.0) ) & 
+				if( (yPos < paddle.getyPos() + (paddle.getHeight()/2.0) ) && 
 					(yPos > paddle.getyPos() - (paddle.getHeight()/2.0) - diameter )){
 					xPos = paddle.getxPos() -  1;
 					angle = Math.PI - angle - (0.01*(yPos - paddle.getyPos()));
-					speed += .5;
+					if(speed < 15)
+						speed += .5;
 				}
 	}
 	

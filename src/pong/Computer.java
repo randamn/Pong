@@ -7,8 +7,7 @@ public class Computer extends Paddle{
 	public Computer(int side){
 		this.setyPos(Game.height/2);
 		
-		
-		this.side = side; //LEFT
+		this.side = side; 
 		if(this.side == 1)
 			this.setxPos(10);
 		else
@@ -17,21 +16,7 @@ public class Computer extends Paddle{
 
 	@Override
 	public void update() {
-		/*if(Game.ball.xPos < Game.width/2){
-			if( this.getyPos() > Game.height ||// - (this.getHeight()/2) || 
-				this.getyPos() > Game.ball.yPos)// - (this.getHeight()/2) )
-				direction = -1;
-			if(	this.getyPos() < this.getHeight()/2 ||
-				this.getyPos() < Game.ball.yPos - this.getHeight()/2)
-				direction = 1;
-		}
-		else
-			direction = 0;
-		
-		if(direction == 1)
-			this.moveDown();
-		if(direction == -1)
-			this.moveUp();*/
+
 		if(this.side == 1)
 			if(Game.ball.xPos < Game.width/2){
 				if(this.getyPos() - Game.ball.yPos > this.getSpeed())
